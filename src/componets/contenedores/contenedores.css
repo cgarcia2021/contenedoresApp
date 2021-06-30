@@ -1,0 +1,31 @@
+.contenedores-form-1 {
+  border-radius: 5px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+  padding: 5%;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: stretch;
+}
+
+.darsena-form-2 {
+  justify-content: flex-end;
+}
+
+.darsena-div {
+  display: flex;
+  align-items: center;
+}
+
+.lpn-div {
+  display: flex;
+  align-items: flex-end;
+}
+
+.contador-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
