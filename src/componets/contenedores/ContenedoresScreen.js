@@ -48,7 +48,7 @@ export const ContenedoresScreen = () => {
 
 
     // eslint-disable-next-line no-unused-vars
-    const { counter, increment, setCounter, } = useCounter();
+    const { counter, setCounter, } = useCounter();
 
     const { cantidadSerie } = useSelector(state => state.lpn)
 
@@ -103,7 +103,7 @@ export const ContenedoresScreen = () => {
 
     }
 
-
+    //habilita la lpn para cargarle numeros de serie
     const handleClickHabilitar = () => {
 
         //aca busco en la DB si existe un lpn y traigo todos los nro de serie que ya tiene asociados
@@ -175,30 +175,40 @@ export const ContenedoresScreen = () => {
     }
 
 
-
+    //se ejecuta luego de que escanean un numero de serie
     const handleKeyUp = async (e) => {
 
         if (e.key === 'Enter' || e.key === 13) {
 
-            handleInputChange(e)
+            const valido = e.target.value.length === 15;
 
-
-            const cargado = await startConsultaExisteSerie(e.target.value, idLpn, idDarsena);
-            const hermanado = await startConsultarFueHermanado(e.target.value);
-
-
-
-
-            if (cargado) {
-                Swal.fire('Error', 'El numero de serie ya fue cargado', 'error');
+            if (!valido) {
+                Swal.fire('Error', 'El número escaneado no es válido', 'error');
             } else {
-                if (hermanado) {
-                    dispatch(startAgregarDetalle(e.target.value));
+                //cambio el valor en el formValues
+                handleInputChange(e)
+
+                //consulto si ya fue escaneado ese numero de serie
+                const cargado = await startConsultaExisteSerie(e.target.value, idLpn, idDarsena);
+                //consulto si el numero de serie que escaneo, fue producido (está hermanado)
+                const hermanado = await startConsultarFueHermanado(e.target.value);
+
+
+
+
+                if (cargado) {
+                    Swal.fire('Error', 'El número de serie ya fue cargado', 'error');
                 } else {
-                    Swal.fire('Error', 'El numero de serie no fue hermanado', 'error');
+                    if (hermanado) {
+                        dispatch(startAgregarDetalle(e.target.value));
+                    } else {
+                        Swal.fire('Error', 'El número de serie no fue hermanado', 'error');
+                    }
                 }
+
             }
 
+            //esto es solo para darle un toque mas visual 
             setTimeout(() => {
                 reset({
                     darsena_id,
@@ -236,11 +246,12 @@ export const ContenedoresScreen = () => {
                         <FormControl className={selectClasses.formControl}>
                             <InputLabel id="darsena-label">Darsena</InputLabel>
                             <Select
-                                labelId="darsena-select"
+                                label="darsena-select"
                                 id="darsenaId"
                                 name="darsena_id"
                                 value={darsena_id}
                                 onChange={handleInputChangeDarsena}
+                                disabled={habilitado}
                             >
                                 <MenuItem value="">
                                     <em>None</em>

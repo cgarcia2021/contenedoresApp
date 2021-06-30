@@ -112,6 +112,7 @@ export const ContenedoresModal = () => {
 
     }
 
+    //manejador del select de LPN 
     const handleInputChangeLpn = ({ target }) => {
 
         handleInputChange({ target });
@@ -121,6 +122,7 @@ export const ContenedoresModal = () => {
     //----------------------------------------------------BUTTON---------------------------------------
     const handleBuscarButton = () => {
 
+        //busca los numeros de serie dentro del rango de fechas, darsena y lpn seleccionado 
         dispatch(startBuscarSerie(darsena_id, lpn_id, moment(startDate).format('yyyy-MM-DD'), moment(endDate).add(1, 'days').format('yyyy-MM-DD')));
         setBusqueda(true);
     }
@@ -161,7 +163,7 @@ export const ContenedoresModal = () => {
                                 <FormControl className={selectClasses.formControl}>
                                     <InputLabel id="darsena-label">Darsena</InputLabel>
                                     <Select
-                                        labelId="darsena-select"
+                                        label="darsena-select"
                                         id="darsenaId"
                                         name="darsena_id"
                                         value={darsena_id}
@@ -193,7 +195,7 @@ export const ContenedoresModal = () => {
                                 <FormControl className={selectClasses.formControl}>
                                     <InputLabel id="lpn-label">LPN</InputLabel>
                                     <Select
-                                        labelId="lpn-select"
+                                        label="lpn-select"
                                         id="lpnId"
                                         name="lpn_id"
                                         value={lpn_id}
